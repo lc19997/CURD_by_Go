@@ -1,0 +1,143 @@
+h1, h2 {
+    text-align: center;
+    color: brown;
+    margin-top: 5%;
+    margin-bottom: 3%;
+}
+
+h1{
+    font-size: 70px;
+}
+
+.createblog-container {
+    text-align:right;
+}
+
+.btn-secondary {
+    width: max-content;
+    height: max-content;
+    margin-right:40px;
+    margin-bottom: 40px;
+    font-size: 40px;
+    color: darkgoldenrod;
+    border-radius: 5px;
+    box-shadow: 5px 5px #888888;
+
+}
+
+.btn-secondary:hover{
+    background-color: aliceblue;
+    color:aquamarine;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+ 
+    text-align: left;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px;
+}
+
+/* Style for the close button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Style for the form elements */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+/* #deletemodal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.modal-content-delete {
+    background-color: #fff;
+    width: 300px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin: 20% auto;
+    text-align: center;
+} */
+
+/* Style for the buttons inside the modal */
+.modal-actions button {
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+}
+
+/* Style for the "Yes" button */
+#deleteYes {
+    background-color: #ff0000;
+    color: #fff;
+}
+
+/* Style for the "No" button */
+#deleteNo {
+    background-color: #aaa;
+    color: #fff;
+}
+
+/* Hover effect for the buttons */
+.modal-actions button:hover {
+    background-color: #333;
+}
+

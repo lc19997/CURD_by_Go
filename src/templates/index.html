@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog Posts</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="app.css">
+
+
+    <!--<link rel="stylesheet" href="./app.css">-->
+</head>
+<body>
+    <div class="container mt-3">
+        <h1>Blog Posts</h1>
+        <div class="createblog-container">
+            <button class="btn-secondary" id="openModalButton">new</button>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeModalButton">&times;</span>
+                    <h2>Create a Blog</h2>
+                    <form id="blogForm">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" required>
+                        <label for="content">Content:</label>
+                        <textarea id="content" name="content" required></textarea>
+                        <button type="submit">Create Blog</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex" style="text-align: center;" id="blogContainer">
+            <table class="table table-hover table-bordered" id="blog-table">
+                <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th class="w-25">Title</th>
+                      <th class="w-75">content</th>
+                      <th style="display: none;">content</th>
+                      <th style="display: none;">content</th>
+                      <th style="display: none;">content</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div id="editModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeModalButton" onclick="closemodal()">&times;</span>
+                    <h2>Edit Blog</h2>
+                    <form id="blogForm1">
+                        <label for="title1">Title:</label>
+                        <input id="title1" name="title1" required>
+                        <label for="content1">Content:</label>
+                        <textarea id="content1" name="content1" required></textarea>
+                        <button type="submit" onclick="saveContent()">Save</button>
+                    </form>
+                </div>
+            </div>
+            <div id="deleteModal" class="modal">
+                <div class="modal-content">
+                    <br>
+                    <p>Are you sure you want to delete this item?</p>
+                
+                <div class="modal-actions">
+                    <button id="deleteYes" onclick="deleteYes()">Yes</button>
+                    <button id="deleteNo" onclick="deleteNo()">No</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        
+
+
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script src="editblog.js"></script> -->
+<script src="openmodal.js"></script>
+<script src="displayblogs.js"></script>
+<script>
+
+var id
+    function fneditmodal(button) {
+        const editmodal = document.getElementById('editModal');
+        editmodal.style.display = "block";
+        const tr = button.closest("tr");
+        const blogTitle= tr.querySelector(".blog-title");
+        const blogContent= tr.querySelector(".blog-content");
+        id = tr.dataset.newdata;
+        const blogForm1 = document.getElementById("blogForm1")
+        const title1 = blogForm1.querySelector("#title1");  // Assuming title1 is an element with the ID "title1"
+        const content1 = blogForm1.querySelector("#content1");  // Assuming content1 is an element with the ID "content1"
+    
+        title1.value = blogTitle.textContent;
+        content1.textContent = blogContent.textContent;
+        if (tr) {
+          
+        console.log(title1.textContent+" "+content1.textContent);
+        
+        // You can access and manipulate the <tr> as needed here
+    }
+       
+    }
+
+    function deleteBlog(button) {
+        console.log("here!");
+        const deletemodal = document.getElementById('deleteModal');
+        deletemodal.style.display = "block";
+        const tr = button.closest("tr");
+        id = tr.dataset.newdata;
+    }
+
+    function deleteYes(){
+        fetch('http://localhost:8080/api/delete/' + id, {
+        method: "POST",
+        body: "",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(response => {
+        if (response.ok) {
+            // Handle the successful response as needed.
+            console.log("Form submitted successfully");
+            location.reload();
+        } else {
+            // Handle errors.
+            console.error("Form submission failed");
+        }
+    });
+    const deletemodal = document.getElementById('deleteModal');
+    deletemodal.style.display = "none";
+    }
+
+    function deleteNo(){
+        const deletemodal = document.getElementById('deleteModal');
+        deletemodal.style.display = "none";
+    }
+
+
+    function closemodal(){
+        const editmodal = document.getElementById('editModal');
+
+        editmodal.style.display = "none";
+    }
+
+    function saveContent() {
+        console.log("babo");
+    const upadatedTitle = document.getElementById("title1").value;
+    const updatedContent = document.getElementById("content1").value;
+    const formData = new FormData(blogForm1);
+    const formObject = {};
+    id = parseInt(id);
+    formObject["id"] = id;
+    formObject["title"] = upadatedTitle;
+    formObject["content"] = updatedContent;
+    // formData.forEach((value, key) => {
+    //     formObject[key] = value;
+    // });
+    const formJSON = JSON.stringify(formObject);
+    console.log(formJSON)
+
+    fetch('http://localhost:8080/api/update/' + id, {
+        method: "POST",
+        body: formJSON,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(response => {
+        if (response.ok) {
+            // Handle the successful response as needed.
+            console.log("Form submitted successfully");
+            location.reload();
+        } else {
+            // Handle errors.
+            console.error("Form submission failed");
+        }
+    });
+    modal.style.display = "none";
+ 
+}
+
+
+  /*  var editButton;
+    $(document).ready(function() {
+    // Function to fetch and display blogs
+    //console.log("edit-btn clicked")
+
+            // Event listener for the "Edit" button for each blog
+            $(".edit-btn").click(function() {
+                // Find the parent blog container
+                console.log("edit-btn clicked")
+                var blogContainer = $(this).closest(".blog-container");
+ 
+
+                // Enable editing for this blog
+                blogContainer.find(".blog-title, .blog-content").prop("readonly", false);
+                //const editform = blogContainer.e
+                //modal.style.display = "block";
+                blogContainer.find(".save-btn").show();
+            });
+
+            // Event listener for the "Save" button for each blog
+            $(".save-btn").click(function() {
+                // Find the parent blog container
+                var blogContainer = $(this).closest("tr");
+
+                // Get the updated data for this blog
+                var updatedTitle = blogContainer.find(".blog-title").textContent();
+                var updatedContent = blogContainer.find(".blog-content").textContent();
+                var blogID = blogContainer.find(".blogid").textContent();
+
+                // Make an AJAX request to update the blog
+                $.post("/update", { id: blogID, title: updatedTitle, content: updatedContent }, function() {
+                    // Disable editing
+                    blogContainer.find(".blog-title, .blog-content").prop("readonly", true);
+                    blogContainer.find(".save-btn").hide();
+
+                    // Fetch and display the updated list of blogs
+
+                });
+            });
+  });*/
+</script>
+
+</html>
